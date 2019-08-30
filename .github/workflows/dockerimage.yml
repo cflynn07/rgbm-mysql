@@ -2,6 +2,7 @@ name: Docker Image CI
 on:
   push:
     paths:
+      - '*' # delete later
       - 'rgbm.sql'
       - 'Dockerfile-mysql'
     branches:
@@ -11,5 +12,7 @@ jobs:
     name: build and push
     runs-on: ubuntu-latest
     steps:
+      - name: Test
+        run: ls -l
       - name: Build
         run: docker build . --file Dockerfile-mysql --tag rgbm-mysql:$(date +%s)
