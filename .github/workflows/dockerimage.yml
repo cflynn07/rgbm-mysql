@@ -29,7 +29,7 @@ jobs:
       - uses: 'actions/docker/cli@master'
         name: 'docker tag latest'
         with:
-          args: 'docker tag cflynnus/rgbm-mysql:${{ github.sha }} cflynnus/rgbm-mysql:latest'
+          args: 'tag cflynnus/rgbm-mysql:${{ github.sha }} cflynnus/rgbm-mysql:latest'
       - uses: 'actions/docker/cli@master'
         name: 'docker push latest'
         with:
