@@ -14,12 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: 'actions/docker/login@master'
+        name: 'docker login'
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - uses: 'actions/docker/cli@master'
+        name: 'docker build'
         with:
           args: 'build . --file Dockerfile-mysql --tag cflynnus/rgbm-mysql:${{ github.sha }}'
       - uses: 'actions/docker/cli@master'
+        name: 'docker push'
         with:
           args: 'push cflynnus/rgbm-mysql:${{ github.sha }}'
