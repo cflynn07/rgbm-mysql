@@ -13,9 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Build
-        run: docker build . --file Dockerfile-mysql --tag cflynnus/rgbm-mysql:${{ github.sha }}
-      - name: Docker Login
-        run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username cflynnus --password-stdin
-      - name: Docker Push
-        run: docker push cflynnus/rgbm-mysql:${{ github.sha }}
+      - uses: 'actions/docker/login@master'
+      - uses: 'actions/docker/cli@master'
+        args: 'build . --file Dockerfile-mysql --tag cflynnus/rgbm-mysql:${{ github.sha }}'
+      - uses: 'actions/docker/cli@master'
+        args: 'push cflynnus/rgbm-mysql:${{ github.sha }}'
