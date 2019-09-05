@@ -1,6 +1,4 @@
 name: Docker Image CI
-author: Casey Flynn <cflynn.us@gmail.com>
-description: Builds and pushes a docker image
 on:
   push:
     paths:
