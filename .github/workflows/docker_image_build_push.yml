@@ -1,0 +1,36 @@
+name: Docker Image Build and Push
+on:
+  push:
+    paths:
+      - '*' # delete later
+      - 'rgbm.sql'
+      - 'Dockerfile-mysql'
+    branches:
+      - master
+jobs:
+  build_and_push:
+    name: build and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: 'actions/docker/login@master'
+        name: 'docker login'
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - uses: 'actions/docker/cli@master'
+        name: 'docker build'
+        with:
+          args: 'build . --file Dockerfile-mysql --tag cflynnus/rgbm-mysql:${{ github.sha }}'
+      - uses: 'actions/docker/cli@master'
+        name: 'docker push hash'
+        with:
+          args: 'push cflynnus/rgbm-mysql:${{ github.sha }}'
+      - uses: 'actions/docker/cli@master'
+        name: 'docker tag latest'
+        with:
+          args: 'tag cflynnus/rgbm-mysql:${{ github.sha }} cflynnus/rgbm-mysql:latest'
+      - uses: 'actions/docker/cli@master'
+        name: 'docker push latest'
+        with:
+          args: 'push cflynnus/rgbm-mysql:latest'
